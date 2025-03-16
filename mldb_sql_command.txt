@@ -1,0 +1,480 @@
+USE [MORTH_LANDSCAPING]
+GO
+/****** Object:  Table [dbo].[Address]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Address](
+	[AddressID] [int] IDENTITY(1,1) NOT NULL,
+	[Street] [nvarchar](50) NULL,
+	[City] [nvarchar](50) NULL,
+	[State] [char](2) NULL,
+	[AddressType] [char](1) NOT NULL,
+	[CustomerID] [int] NULL,
+	[EmployeeID] [int] NULL,
+	[PropertyID] [int] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Customer]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Customer](
+	[CustomerID] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [varchar](20) NOT NULL,
+	[LastName] [varchar](20) NOT NULL,
+	[Phone] [char](20) NULL,
+	[Email] [varchar](50) NULL,
+ CONSTRAINT [PK_Client] PRIMARY KEY CLUSTERED 
+(
+	[CustomerID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Employee]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Employee](
+	[EmployeeID] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [varchar](20) NOT NULL,
+	[LastName] [varchar](20) NOT NULL,
+	[Phone] [char](20) NOT NULL,
+	[Salary] [money] NOT NULL,
+	[Role] [nvarchar](20) NULL,
+ CONSTRAINT [PK_Landscaper] PRIMARY KEY CLUSTERED 
+(
+	[EmployeeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Equipment]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Equipment](
+	[EquipID] [int] IDENTITY(1,1) NOT NULL,
+	[Ownership] [varchar](10) NOT NULL,
+	[VendorID] [int] NULL,
+ CONSTRAINT [PK_Equipment] PRIMARY KEY CLUSTERED 
+(
+	[EquipID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[EquipmentExpense]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EquipmentExpense](
+	[EquipID] [int] NOT NULL,
+	[ExpenseID] [int] NOT NULL,
+	[EquipExpDate] [date] NOT NULL,
+ CONSTRAINT [PK_EquipmentExpense] PRIMARY KEY CLUSTERED 
+(
+	[EquipID] ASC,
+	[ExpenseID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[EquipmentService]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EquipmentService](
+	[EquipServeID] [int] IDENTITY(1,1) NOT NULL,
+	[EquipServeDate] [date] NULL,
+	[EquipID] [int] NULL,
+	[ServiceID] [int] NULL,
+ CONSTRAINT [PK_EquipmentService] PRIMARY KEY CLUSTERED 
+(
+	[EquipServeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Expense]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Expense](
+	[ExpenseID] [int] IDENTITY(1,1) NOT NULL,
+	[ExpenseDate] [date] NOT NULL,
+	[ExpenseType] [nvarchar](50) NOT NULL,
+	[ExpenseSubType] [nvarchar](50) NOT NULL,
+	[AmountSpent] [money] NOT NULL,
+	[ExpenseComment] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Expense] PRIMARY KEY CLUSTERED 
+(
+	[ExpenseID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LandEquip]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LandEquip](
+	[LandEquipID] [int] IDENTITY(1,1) NOT NULL,
+	[LandEquipDate] [date] NULL,
+	[EmployeeID] [int] NULL,
+	[EquipID] [int] NULL,
+ CONSTRAINT [PK_LandEquip] PRIMARY KEY CLUSTERED 
+(
+	[LandEquipID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LandProperty]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LandProperty](
+	[LandPropID] [int] IDENTITY(1,1) NOT NULL,
+	[EmployeeID] [int] NULL,
+	[PropertyID] [int] NULL,
+	[LandPropDate] [date] NOT NULL,
+ CONSTRAINT [PK_LandProperty] PRIMARY KEY CLUSTERED 
+(
+	[LandPropID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LandscaperExp]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LandscaperExp](
+	[EmployeeID] [int] NOT NULL,
+	[ExpenseID] [int] NOT NULL,
+	[EmpExpDate] [date] NOT NULL,
+ CONSTRAINT [PK_LandscaperExp] PRIMARY KEY CLUSTERED 
+(
+	[EmployeeID] ASC,
+	[ExpenseID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[LandService]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[LandService](
+	[LandServiceID] [int] IDENTITY(1,1) NOT NULL,
+	[EmployeeID] [int] NULL,
+	[ServiceID] [int] NULL,
+	[LandServeDate] [date] NULL,
+ CONSTRAINT [PK_LandService] PRIMARY KEY CLUSTERED 
+(
+	[LandServiceID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Material]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Material](
+	[MaterialID] [int] IDENTITY(1,1) NOT NULL,
+	[MaterialName] [nvarchar](20) NULL,
+	[VendorID] [int] NOT NULL,
+ CONSTRAINT [PK_Material] PRIMARY KEY CLUSTERED 
+(
+	[MaterialID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MaterialServe]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MaterialServe](
+	[MatServeID] [int] IDENTITY(1,1) NOT NULL,
+	[MatServeDate] [date] NULL,
+	[MaterialID] [int] NULL,
+	[ServiceID] [int] NULL,
+ CONSTRAINT [PK_MaterialServe] PRIMARY KEY CLUSTERED 
+(
+	[MatServeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MatExp]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MatExp](
+	[MaterialID] [int] NOT NULL,
+	[ExpenseID] [int] NULL,
+	[MatExpDate] [date] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PrefferedService]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PrefferedService](
+	[PSID] [int] IDENTITY(1,1) NOT NULL,
+	[PropertyID] [int] NULL,
+	[ServiceID] [int] NULL,
+ CONSTRAINT [PK_Preferred] PRIMARY KEY CLUSTERED 
+(
+	[PSID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Project]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Project](
+	[PropertyID] [int] IDENTITY(1,1) NOT NULL,
+	[ProjectStartDate] [date] NOT NULL,
+	[ProjectEndDate] [date] NOT NULL,
+	[ActualPrice] [money] NOT NULL,
+	[ActualCompTime] [int] NULL,
+	[ServiceID] [int] NULL,
+ CONSTRAINT [PK_Project] PRIMARY KEY CLUSTERED 
+(
+	[PropertyID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Property]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Property](
+	[PropertyID] [int] IDENTITY(1,1) NOT NULL,
+	[PropertyName] [nvarchar](50) NOT NULL,
+	[ClientID] [int] NOT NULL,
+ CONSTRAINT [PK_Property] PRIMARY KEY CLUSTERED 
+(
+	[PropertyID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Service]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Service](
+	[ServiceID] [int] IDENTITY(1,1) NOT NULL,
+	[ServiceType] [varchar](50) NOT NULL,
+	[ServiceSubType] [nvarchar](50) NOT NULL,
+	[MinumumPrice] [money] NULL,
+	[StdCompTime] [time](7) NULL,
+ CONSTRAINT [PK_Service] PRIMARY KEY CLUSTERED 
+(
+	[ServiceID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ServiceExpense]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ServiceExpense](
+	[ServiceExpenseID] [int] IDENTITY(1,1) NOT NULL,
+	[ServiceID] [int] NULL,
+	[ExpenseID] [int] NULL,
+	[ServiceExpDate] [date] NOT NULL,
+ CONSTRAINT [PK_ServiceExpense] PRIMARY KEY CLUSTERED 
+(
+	[ServiceExpenseID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Vendor]    Script Date: 3/15/2025 10:39:35 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Vendor](
+	[VendorID] [int] IDENTITY(1,1) NOT NULL,
+	[Phone] [nchar](10) NULL,
+	[Email] [nvarchar](50) NULL,
+ CONSTRAINT [PK_Vendor] PRIMARY KEY CLUSTERED 
+(
+	[VendorID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Address]  WITH CHECK ADD  CONSTRAINT [FK_Address_Customer] FOREIGN KEY([CustomerID])
+REFERENCES [dbo].[Customer] ([CustomerID])
+GO
+ALTER TABLE [dbo].[Address] CHECK CONSTRAINT [FK_Address_Customer]
+GO
+ALTER TABLE [dbo].[Address]  WITH CHECK ADD  CONSTRAINT [FK_Address_Employee] FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employee] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[Address] CHECK CONSTRAINT [FK_Address_Employee]
+GO
+ALTER TABLE [dbo].[Address]  WITH CHECK ADD  CONSTRAINT [FK_Address_Property] FOREIGN KEY([PropertyID])
+REFERENCES [dbo].[Property] ([PropertyID])
+GO
+ALTER TABLE [dbo].[Address] CHECK CONSTRAINT [FK_Address_Property]
+GO
+ALTER TABLE [dbo].[Equipment]  WITH CHECK ADD  CONSTRAINT [FK_Equipment_Vendor] FOREIGN KEY([VendorID])
+REFERENCES [dbo].[Vendor] ([VendorID])
+GO
+ALTER TABLE [dbo].[Equipment] CHECK CONSTRAINT [FK_Equipment_Vendor]
+GO
+ALTER TABLE [dbo].[EquipmentExpense]  WITH CHECK ADD  CONSTRAINT [FK_EquipmentExpense_Equipment] FOREIGN KEY([EquipID])
+REFERENCES [dbo].[Equipment] ([EquipID])
+GO
+ALTER TABLE [dbo].[EquipmentExpense] CHECK CONSTRAINT [FK_EquipmentExpense_Equipment]
+GO
+ALTER TABLE [dbo].[EquipmentExpense]  WITH CHECK ADD  CONSTRAINT [FK_EquipmentExpense_Expense] FOREIGN KEY([ExpenseID])
+REFERENCES [dbo].[Expense] ([ExpenseID])
+GO
+ALTER TABLE [dbo].[EquipmentExpense] CHECK CONSTRAINT [FK_EquipmentExpense_Expense]
+GO
+ALTER TABLE [dbo].[EquipmentService]  WITH CHECK ADD  CONSTRAINT [FK_EquipmentService_Equipment] FOREIGN KEY([EquipID])
+REFERENCES [dbo].[Equipment] ([EquipID])
+GO
+ALTER TABLE [dbo].[EquipmentService] CHECK CONSTRAINT [FK_EquipmentService_Equipment]
+GO
+ALTER TABLE [dbo].[EquipmentService]  WITH CHECK ADD  CONSTRAINT [FK_EquipmentService_Service] FOREIGN KEY([ServiceID])
+REFERENCES [dbo].[Service] ([ServiceID])
+GO
+ALTER TABLE [dbo].[EquipmentService] CHECK CONSTRAINT [FK_EquipmentService_Service]
+GO
+ALTER TABLE [dbo].[LandEquip]  WITH CHECK ADD  CONSTRAINT [FK_LandEquip_Equipment] FOREIGN KEY([EquipID])
+REFERENCES [dbo].[Equipment] ([EquipID])
+GO
+ALTER TABLE [dbo].[LandEquip] CHECK CONSTRAINT [FK_LandEquip_Equipment]
+GO
+ALTER TABLE [dbo].[LandEquip]  WITH CHECK ADD  CONSTRAINT [FK_LandEquip_Landscaper] FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employee] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[LandEquip] CHECK CONSTRAINT [FK_LandEquip_Landscaper]
+GO
+ALTER TABLE [dbo].[LandProperty]  WITH CHECK ADD  CONSTRAINT [FK_LandProperty_Landscaper] FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employee] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[LandProperty] CHECK CONSTRAINT [FK_LandProperty_Landscaper]
+GO
+ALTER TABLE [dbo].[LandProperty]  WITH CHECK ADD  CONSTRAINT [FK_LandProperty_Property] FOREIGN KEY([PropertyID])
+REFERENCES [dbo].[Property] ([PropertyID])
+GO
+ALTER TABLE [dbo].[LandProperty] CHECK CONSTRAINT [FK_LandProperty_Property]
+GO
+ALTER TABLE [dbo].[LandscaperExp]  WITH CHECK ADD  CONSTRAINT [FK_LandscaperExp_Expense] FOREIGN KEY([ExpenseID])
+REFERENCES [dbo].[Expense] ([ExpenseID])
+GO
+ALTER TABLE [dbo].[LandscaperExp] CHECK CONSTRAINT [FK_LandscaperExp_Expense]
+GO
+ALTER TABLE [dbo].[LandscaperExp]  WITH CHECK ADD  CONSTRAINT [FK_LandscaperExp_Landscaper] FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employee] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[LandscaperExp] CHECK CONSTRAINT [FK_LandscaperExp_Landscaper]
+GO
+ALTER TABLE [dbo].[LandService]  WITH CHECK ADD  CONSTRAINT [FK_LandService_Landscaper] FOREIGN KEY([EmployeeID])
+REFERENCES [dbo].[Employee] ([EmployeeID])
+GO
+ALTER TABLE [dbo].[LandService] CHECK CONSTRAINT [FK_LandService_Landscaper]
+GO
+ALTER TABLE [dbo].[LandService]  WITH CHECK ADD  CONSTRAINT [FK_LandService_Service] FOREIGN KEY([ServiceID])
+REFERENCES [dbo].[Service] ([ServiceID])
+GO
+ALTER TABLE [dbo].[LandService] CHECK CONSTRAINT [FK_LandService_Service]
+GO
+ALTER TABLE [dbo].[Material]  WITH CHECK ADD  CONSTRAINT [FK_Material_Vendor] FOREIGN KEY([VendorID])
+REFERENCES [dbo].[Vendor] ([VendorID])
+GO
+ALTER TABLE [dbo].[Material] CHECK CONSTRAINT [FK_Material_Vendor]
+GO
+ALTER TABLE [dbo].[MaterialServe]  WITH CHECK ADD  CONSTRAINT [FK_MaterialServe_Material] FOREIGN KEY([MaterialID])
+REFERENCES [dbo].[Material] ([MaterialID])
+GO
+ALTER TABLE [dbo].[MaterialServe] CHECK CONSTRAINT [FK_MaterialServe_Material]
+GO
+ALTER TABLE [dbo].[MaterialServe]  WITH CHECK ADD  CONSTRAINT [FK_MaterialServe_Service] FOREIGN KEY([ServiceID])
+REFERENCES [dbo].[Service] ([ServiceID])
+GO
+ALTER TABLE [dbo].[MaterialServe] CHECK CONSTRAINT [FK_MaterialServe_Service]
+GO
+ALTER TABLE [dbo].[MatExp]  WITH CHECK ADD  CONSTRAINT [FK_MatExp_Expense] FOREIGN KEY([ExpenseID])
+REFERENCES [dbo].[Expense] ([ExpenseID])
+GO
+ALTER TABLE [dbo].[MatExp] CHECK CONSTRAINT [FK_MatExp_Expense]
+GO
+ALTER TABLE [dbo].[MatExp]  WITH CHECK ADD  CONSTRAINT [FK_MatExp_Material] FOREIGN KEY([MaterialID])
+REFERENCES [dbo].[Material] ([MaterialID])
+GO
+ALTER TABLE [dbo].[MatExp] CHECK CONSTRAINT [FK_MatExp_Material]
+GO
+ALTER TABLE [dbo].[PrefferedService]  WITH CHECK ADD  CONSTRAINT [FK_Preferred_Property] FOREIGN KEY([PropertyID])
+REFERENCES [dbo].[Property] ([PropertyID])
+GO
+ALTER TABLE [dbo].[PrefferedService] CHECK CONSTRAINT [FK_Preferred_Property]
+GO
+ALTER TABLE [dbo].[PrefferedService]  WITH CHECK ADD  CONSTRAINT [FK_Preffered_Service] FOREIGN KEY([ServiceID])
+REFERENCES [dbo].[Service] ([ServiceID])
+GO
+ALTER TABLE [dbo].[PrefferedService] CHECK CONSTRAINT [FK_Preffered_Service]
+GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_CustomerService_Service] FOREIGN KEY([ServiceID])
+REFERENCES [dbo].[Service] ([ServiceID])
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_CustomerService_Service]
+GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Property] FOREIGN KEY([PropertyID])
+REFERENCES [dbo].[Property] ([PropertyID])
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Property]
+GO
+ALTER TABLE [dbo].[Property]  WITH CHECK ADD  CONSTRAINT [FK_Property_Client] FOREIGN KEY([ClientID])
+REFERENCES [dbo].[Customer] ([CustomerID])
+GO
+ALTER TABLE [dbo].[Property] CHECK CONSTRAINT [FK_Property_Client]
+GO
+ALTER TABLE [dbo].[ServiceExpense]  WITH CHECK ADD  CONSTRAINT [FK_ServiceExpense_Expense] FOREIGN KEY([ExpenseID])
+REFERENCES [dbo].[Expense] ([ExpenseID])
+GO
+ALTER TABLE [dbo].[ServiceExpense] CHECK CONSTRAINT [FK_ServiceExpense_Expense]
+GO
+ALTER TABLE [dbo].[ServiceExpense]  WITH CHECK ADD  CONSTRAINT [FK_ServiceExpense_Service] FOREIGN KEY([ServiceID])
+REFERENCES [dbo].[Service] ([ServiceID])
+GO
+ALTER TABLE [dbo].[ServiceExpense] CHECK CONSTRAINT [FK_ServiceExpense_Service]
+GO
+ALTER TABLE [dbo].[Equipment]  WITH CHECK ADD  CONSTRAINT [CK_Equipment] CHECK  (([Ownership]='rented' OR [Ownership]='owned'))
+GO
+ALTER TABLE [dbo].[Equipment] CHECK CONSTRAINT [CK_Equipment]
+GO
+ALTER TABLE [dbo].[Expense]  WITH CHECK ADD  CONSTRAINT [CK_Expense] CHECK  (([ExpenseType]='general' OR [ExpenseType]='job'))
+GO
+ALTER TABLE [dbo].[Expense] CHECK CONSTRAINT [CK_Expense]
+GO
+ALTER TABLE [dbo].[Expense]  WITH CHECK ADD  CONSTRAINT [CK_Expense_1] CHECK  (([ExpenseSubType]='other' OR [ExpenseSubType]='equipment' OR [ExpenseSubType]='wages' OR [ExpenseSubType]='supplies'))
+GO
+ALTER TABLE [dbo].[Expense] CHECK CONSTRAINT [CK_Expense_1]
+GO
+ALTER TABLE [dbo].[Service]  WITH CHECK ADD  CONSTRAINT [CK_Service] CHECK  (([ServiceType]='mulching' OR [ServiceType]='hardscaping' OR [ServiceType]='leaf_removal' OR [ServiceType]='snow_removal' OR [ServiceType]='mowing'))
+GO
+ALTER TABLE [dbo].[Service] CHECK CONSTRAINT [CK_Service]
+GO
+ALTER TABLE [dbo].[Service]  WITH CHECK ADD  CONSTRAINT [CK_Service_1] CHECK  (([ServiceSubType]='hard' OR [ServiceSubType]='easy'))
+GO
+ALTER TABLE [dbo].[Service] CHECK CONSTRAINT [CK_Service_1]
+GO
